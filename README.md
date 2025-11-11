@@ -312,11 +312,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 If you discover any security-related issues, please email jakub@topol.io instead of using the issue tracker.
 
-## Credits
-
-- [Jakub Gause](https://github.com/topol)
-- [All Contributors](../../contributors)
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
