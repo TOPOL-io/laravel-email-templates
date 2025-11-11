@@ -11,7 +11,7 @@ class EmailTemplatesServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -35,7 +35,10 @@ class EmailTemplatesServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('email-templates', function ($app) {
-            return new EmailTemplates($app->make(ApiClient::class));
+            /** @var \Illuminate\Contracts\Foundation\Application $app */
+            /** @var ApiClient $apiClient */
+            $apiClient = $app->make(ApiClient::class);
+            return new EmailTemplates($apiClient);
         });
     }
 

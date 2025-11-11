@@ -14,25 +14,35 @@ class ApiClient
     protected string $apiUrl;
     protected ?string $apiKey;
     protected int $timeout;
+    /** @var array<string, mixed> */
     protected array $cacheConfig;
 
     public function __construct()
     {
-        $this->apiUrl = config('email-templates.api_url');
-        $this->apiKey = config('email-templates.api_key');
-        $this->timeout = config('email-templates.timeout', 30);
-        $this->cacheConfig = config('email-templates.cache', []);
+        $apiUrl = config('email-templates.api_url');
+        $this->apiUrl = is_string($apiUrl) ? $apiUrl : 'https://api.topol.io';
+
+        $apiKey = config('email-templates.api_key');
+        $this->apiKey = is_string($apiKey) ? $apiKey : null;
+
+        $timeout = config('email-templates.timeout', 30);
+        $this->timeout = is_int($timeout) ? $timeout : 30;
+
+        $cacheConfig = config('email-templates.cache', []);
+        /** @var array<string, mixed> $validatedConfig */
+        $validatedConfig = is_array($cacheConfig) ? $cacheConfig : [];
+        $this->cacheConfig = $validatedConfig;
     }
 
     /**
      * Fetch email template by ID from the API
      *
      * @param string|int $templateId
-     * @return array
+     * @return array<string, mixed>
      * @throws TemplateNotFoundException
      * @throws ApiException
      */
-    public function fetchTemplate($templateId): array
+    public function fetchTemplate(string|int $templateId): array
     {
         // Check cache first if enabled
         if ($this->isCacheEnabled()) {
@@ -57,6 +67,7 @@ class ApiClient
                 );
             }
 
+            /** @var array<string, mixed> $data */
             $data = $response->json();
 
             // Cache the result if enabled
@@ -75,7 +86,7 @@ class ApiClient
     /**
      * Get authentication headers for API requests
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function getAuthHeaders(): array
     {
@@ -98,33 +109,36 @@ class ApiClient
      */
     protected function isCacheEnabled(): bool
     {
-        return $this->cacheConfig['enabled'] ?? false;
+        return (bool) ($this->cacheConfig['enabled'] ?? false);
     }
 
     /**
      * Get template from cache
      *
      * @param string|int $templateId
-     * @return array|null
+     * @return array<string, mixed>|null
      */
-    protected function getFromCache($templateId): ?array
+    protected function getFromCache(string|int $templateId): ?array
     {
         $key = $this->getCacheKey($templateId);
-        return Cache::get($key);
+        /** @var array<string, mixed>|null $cached */
+        $cached = Cache::get($key);
+        return $cached;
     }
 
     /**
      * Save template to cache
      *
      * @param string|int $templateId
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return void
      */
-    protected function saveToCache($templateId, array $data): void
+    protected function saveToCache(string|int $templateId, array $data): void
     {
         $key = $this->getCacheKey($templateId);
         $ttl = $this->cacheConfig['ttl'] ?? 3600;
-        Cache::put($key, $data, $ttl);
+        $ttlInt = is_int($ttl) ? $ttl : 3600;
+        Cache::put($key, $data, $ttlInt);
     }
 
     /**
@@ -133,10 +147,11 @@ class ApiClient
      * @param string|int $templateId
      * @return string
      */
-    protected function getCacheKey($templateId): string
+    protected function getCacheKey(string|int $templateId): string
     {
         $prefix = $this->cacheConfig['prefix'] ?? 'topol_email_template_';
-        return $prefix . $templateId;
+        $prefixStr = is_string($prefix) ? $prefix : 'topol_email_template_';
+        return $prefixStr . (string) $templateId;
     }
 
     /**
@@ -145,7 +160,7 @@ class ApiClient
      * @param string|int $templateId
      * @return void
      */
-    public function clearCache($templateId): void
+    public function clearCache(string|int $templateId): void
     {
         $key = $this->getCacheKey($templateId);
         Cache::forget($key);

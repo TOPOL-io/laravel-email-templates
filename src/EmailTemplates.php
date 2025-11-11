@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Topol\EmailTemplates;
 
-use Illuminate\Support\Facades\Mail;
 use Topol\EmailTemplates\Exceptions\ApiException;
 use Topol\EmailTemplates\Exceptions\TemplateNotFoundException;
 
@@ -12,7 +11,7 @@ class EmailTemplates
 {
     protected ApiClient $apiClient;
 
-    public function __construct(ApiClient $apiClient = null)
+    public function __construct(?ApiClient $apiClient = null)
     {
         $this->apiClient = $apiClient ?? app(ApiClient::class);
     }
@@ -21,11 +20,11 @@ class EmailTemplates
      * Fetch a template from the API
      *
      * @param string|int $templateId
-     * @return array
+     * @return array<string, mixed>
      * @throws TemplateNotFoundException
      * @throws ApiException
      */
-    public function fetchTemplate($templateId): array
+    public function fetchTemplate(string|int $templateId): array
     {
         return $this->apiClient->fetchTemplate($templateId);
     }
@@ -36,7 +35,7 @@ class EmailTemplates
      * @param string|int $templateId
      * @return void
      */
-    public function clearCache($templateId): void
+    public function clearCache(string|int $templateId): void
     {
         $this->apiClient->clearCache($templateId);
     }
@@ -54,11 +53,11 @@ class EmailTemplates
     /**
      * Create a new TopolMailable instance
      *
-     * @param string|int $templateId
-     * @param array $data
+     * @param string $templateId
+     * @param array<string, mixed> $data
      * @return TopolMailable
      */
-    public function mailable($templateId, array $data = []): TopolMailable
+    public function mailable(string $templateId, array $data = []): TopolMailable
     {
         return new TopolMailable($templateId, $data);
     }

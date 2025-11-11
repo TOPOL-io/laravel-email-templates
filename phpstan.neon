@@ -1,0 +1,13 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+
+    # Exclude vendor and other directories
+    excludePaths:
+        - vendor
+        - tests
+
