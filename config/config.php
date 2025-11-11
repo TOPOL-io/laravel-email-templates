@@ -5,11 +5,6 @@
  */
 return [
     /*
-     * API endpoint to fetch email templates
-     */
-    'api_url' => 'https://api.topol.io',
-
-    /*
      * API key for authentication
      */
     'api_key' => env('TOPOL_API_KEY'),

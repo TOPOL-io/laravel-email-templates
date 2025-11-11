@@ -11,7 +11,7 @@ use Topol\EmailTemplates\Exceptions\TemplateNotFoundException;
 
 class ApiClient
 {
-    protected string $apiUrl;
+    protected string $apiUrl = 'https://app.topol.io/api';
     protected ?string $apiKey;
     protected int $timeout;
     /** @var array<string, mixed> */
@@ -19,9 +19,6 @@ class ApiClient
 
     public function __construct()
     {
-        $apiUrl = config('email-templates.api_url');
-        $this->apiUrl = is_string($apiUrl) ? $apiUrl : 'https://api.topol.io';
-
         $apiKey = config('email-templates.api_key');
         $this->apiKey = is_string($apiKey) ? $apiKey : null;
 
