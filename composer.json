@@ -9,7 +9,7 @@
         "templates",
         "topol.io"
     ],
-    "homepage": "https://github.com/topol/laravel-email-templates",
+    "homepage": "https://github.com/TOPOL-io/laravel-email-templates",
     "license": "MIT",
     "type": "library",
     "authors": [

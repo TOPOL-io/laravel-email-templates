@@ -108,5 +108,5 @@ This is the first beta release of the Topol Email Templates package for Laravel.
 - Laravel package auto-discovery
 - Singleton pattern for service instances
 
-[Unreleased]: https://github.com/topol/laravel-email-templates/compare/v0.1.0-beta.1...HEAD
-[0.1.0-beta.1]: https://github.com/topol/laravel-email-templates/releases/tag/v0.1.0-beta.1
+[Unreleased]: https://github.com/TOPOL-io/laravel-email-templates/compare/v0.1.0-beta.1...HEAD
+[0.1.0-beta.1]: https://github.com/TOPOL-io/laravel-email-templates/releases/tag/v0.1.0-beta.1
