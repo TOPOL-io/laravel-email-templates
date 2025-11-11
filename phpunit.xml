@@ -28,7 +28,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="TOPOL_API_URL" value="https://api.topol.io"/>
+        <env name="TOPOL_API_URL" value="https://app.topol.io/api"/>
         <env name="TOPOL_API_KEY" value="test-api-key"/>
         <env name="TOPOL_CACHE_ENABLED" value="true"/>
         <env name="TOPOL_CACHE_TTL" value="3600"/>

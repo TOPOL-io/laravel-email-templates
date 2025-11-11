@@ -37,14 +37,14 @@ class ApiClientTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($expectedData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($expectedData, 200),
         ]);
 
         $result = $this->apiClient->fetchTemplate($templateId);
 
         $this->assertEquals($expectedData, $result);
         Http::assertSent(function ($request) use ($templateId) {
-            return $request->url() === "https://api.topol.io/templates/{$templateId}"
+            return $request->url() === "https://app.topol.io/api/templates/{$templateId}"
                 && $request->hasHeader('Authorization', 'Bearer test-api-key')
                 && $request->hasHeader('Accept', 'application/json');
         });
@@ -56,7 +56,7 @@ class ApiClientTest extends TestCase
         $templateId = 'non-existent';
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response(null, 404),
+            'https://app.topol.io/api/templates/*' => Http::response(null, 404),
         ]);
 
         $this->expectException(TemplateNotFoundException::class);
@@ -69,7 +69,7 @@ class ApiClientTest extends TestCase
     public function it_throws_exception_on_api_error(): void
     {
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response('Server Error', 500),
+            'https://app.topol.io/api/templates/*' => Http::response('Server Error', 500),
         ]);
 
         $this->expectException(ApiException::class);
@@ -89,7 +89,7 @@ class ApiClientTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($expectedData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($expectedData, 200),
         ]);
 
         // First call - should hit API
@@ -122,7 +122,7 @@ class ApiClientTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($expectedData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($expectedData, 200),
         ]);
 
         // First call
@@ -146,7 +146,7 @@ class ApiClientTest extends TestCase
         $expectedData = ['id' => $templateId, 'subject' => 'Test'];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($expectedData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($expectedData, 200),
         ]);
 
         // Fetch and cache template
@@ -168,7 +168,7 @@ class ApiClientTest extends TestCase
         $templateId2 = 'template-456';
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response(['id' => 'test'], 200),
+            'https://app.topol.io/api/templates/*' => Http::response(['id' => 'test'], 200),
         ]);
 
         // Fetch and cache multiple templates
@@ -197,7 +197,7 @@ class ApiClientTest extends TestCase
         $expectedData = ['id' => $templateId];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($expectedData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($expectedData, 200),
         ]);
 
         $apiClient->fetchTemplate($templateId);
@@ -217,7 +217,7 @@ class ApiClientTest extends TestCase
         $expectedData = ['id' => $templateId];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($expectedData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($expectedData, 200),
         ]);
 
         Cache::shouldReceive('get')
@@ -249,7 +249,7 @@ class ApiClientTest extends TestCase
     public function it_includes_authorization_header_when_api_key_is_set(): void
     {
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response(['id' => 'test'], 200),
+            'https://app.topol.io/api/templates/*' => Http::response(['id' => 'test'], 200),
         ]);
 
         $this->apiClient->fetchTemplate('template-123');
@@ -266,7 +266,7 @@ class ApiClientTest extends TestCase
         $apiClient = new ApiClient;
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response(['id' => 'test'], 200),
+            'https://app.topol.io/api/templates/*' => Http::response(['id' => 'test'], 200),
         ]);
 
         $apiClient->fetchTemplate('template-123');

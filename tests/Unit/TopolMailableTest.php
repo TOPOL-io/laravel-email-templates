@@ -56,7 +56,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable($templateId, ['name' => 'John']);
@@ -82,7 +82,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123', [
@@ -105,7 +105,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123', [
@@ -131,7 +131,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123', [
@@ -155,7 +155,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123');
@@ -175,7 +175,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123');
@@ -196,7 +196,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123');
@@ -217,7 +217,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123', ['name' => 'Charlie']);
@@ -238,7 +238,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123');
@@ -259,7 +259,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123');
@@ -291,7 +291,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123');
@@ -312,7 +312,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123', [
@@ -338,7 +338,7 @@ class TopolMailableTest extends TestCase
         ];
 
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response($templateData, 200),
+            'https://app.topol.io/api/templates/*' => Http::response($templateData, 200),
         ]);
 
         $mailable = new TopolMailable('template-123', ['name' => 'Alice']);

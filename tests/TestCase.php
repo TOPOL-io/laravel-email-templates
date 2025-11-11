@@ -35,7 +35,7 @@ abstract class TestCase extends Orchestra
     protected function getEnvironmentSetUp($app): void
     {
         // Setup default configuration
-        $app['config']->set('email-templates.api_url', 'https://api.topol.io');
+        $app['config']->set('email-templates.api_url', 'https://app.topol.io/api');
         $app['config']->set('email-templates.api_key', 'test-api-key');
         $app['config']->set('email-templates.timeout', 30);
         $app['config']->set('email-templates.cache.enabled', true);

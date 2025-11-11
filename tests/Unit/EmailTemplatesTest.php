@@ -123,7 +123,7 @@ class EmailTemplatesTest extends TestCase
     public function it_can_be_instantiated_without_api_client(): void
     {
         Http::fake([
-            'https://api.topol.io/templates/*' => Http::response(['id' => 'test'], 200),
+            'https://app.topol.io/api/templates/*' => Http::response(['id' => 'test'], 200),
         ]);
 
         $emailTemplates = new EmailTemplates;
