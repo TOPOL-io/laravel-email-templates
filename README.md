@@ -25,11 +25,19 @@ A modern Laravel package that seamlessly integrates with [Topol.io](https://topo
 
 ## Installation
 
-Install the package via composer:
+> **Note:** This package is currently in development. A stable v1.0.0 release is coming soon.
+
+### For Testing (Development Version)
+
+Install the latest development version from the main branch:
 
 ```bash
-composer require topol/laravel-email-templates
+composer require topol/laravel-email-templates:dev-main
 ```
+
+> ⚠️ **Warning:** The `dev-main` version is for testing purposes only and may contain unstable code. Do not use in production.
+
+### Setup
 
 Publish the configuration file:
 
