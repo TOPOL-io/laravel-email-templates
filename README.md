@@ -35,24 +35,11 @@ Add these environment variables to your `.env` file:
 ```env
 TOPOL_API_URL=https://api.topol.io
 TOPOL_API_KEY=your-api-key
-TOPOL_API_SECRET=your-api-secret
 TOPOL_CACHE_ENABLED=true
 TOPOL_CACHE_TTL=3600
 ```
 
 ## Quick Start
-
-### Using the Facade (Simplest)
-
-```php
-use Topol\EmailTemplates\Facades\EmailTemplates;
-
-EmailTemplates::send(
-    'template-123',
-    'user@example.com',
-    ['name' => 'John Doe', 'order_number' => '12345']
-);
-```
 
 ### Using TopolMailable
 
@@ -63,33 +50,6 @@ use Topol\EmailTemplates\TopolMailable;
 Mail::to('user@example.com')->send(
     new TopolMailable('template-123', ['name' => 'John Doe'])
 );
-```
-
-### Using Custom Mailable with Trait
-
-```php
-use Illuminate\Mail\Mailable;
-use Topol\EmailTemplates\Traits\UsesTopolTemplate;
-
-class OrderConfirmation extends Mailable
-{
-    use UsesTopolTemplate;
-
-    public function build()
-    {
-        return $this->withTopolTemplate('order-confirmation')
-                    ->withTopolData(['name' => 'John'])
-                    ->buildFromTopolTemplate();
-    }
-}
-```
-
-## Testing the API Connection
-
-Test your API configuration:
-
-```bash
-php artisan topol:test template-123
 ```
 
 ## API Response Format
@@ -124,15 +84,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 If you discover any security related issues, please email jakub@topol.io instead of using the issue tracker.
 
-## Credits
-
--   [Jakub Gause](https://github.com/topol)
--   [All Contributors](../../contributors)
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
