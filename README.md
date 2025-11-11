@@ -1,8 +1,8 @@
 # Topol Email Templates for Laravel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/topol/email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/email-templates)
-[![Total Downloads](https://img.shields.io/packagist/dt/topol/email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/email-templates)
-![GitHub Actions](https://github.com/topol/email-templates/actions/workflows/main.yml/badge.svg)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/topol/laravel-email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/laravel-email-templates)
+[![Total Downloads](https://img.shields.io/packagist/dt/topol/laravel-email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/laravel-email-templates)
+![GitHub Actions](https://github.com/topol/laravel-email-templates/actions/workflows/main.yml/badge.svg)
 
 A Laravel package that seamlessly integrates with Topol.io email templates. This package hooks into Laravel's email sending system to fetch email templates from the Topol API by ID, with built-in caching and multiple usage patterns.
 
@@ -21,7 +21,7 @@ A Laravel package that seamlessly integrates with Topol.io email templates. This
 Install the package via composer:
 
 ```bash
-composer require topol/email-templates
+composer require topol/laravel-email-templates
 ```
 
 Publish the configuration file:

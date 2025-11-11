@@ -1,11 +1,15 @@
 {
-    "name": "topol/email-templates",
-    "description": "",
+    "name": "topol/laravel-email-templates",
+    "description": "Laravel package for integrating Topol.io email templates with automatic caching and variable replacement",
     "keywords": [
         "topol",
-        "email-templates"
+        "laravel",
+        "email-templates",
+        "email",
+        "templates",
+        "topol.io"
     ],
-    "homepage": "https://github.com/topol/email-templates",
+    "homepage": "https://github.com/topol/laravel-email-templates",
     "license": "MIT",
     "type": "library",
     "authors": [
