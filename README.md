@@ -40,7 +40,6 @@ php artisan vendor:publish --provider="Topol\EmailTemplates\EmailTemplatesServic
 Add these environment variables to your `.env` file:
 
 ```env
-TOPOL_API_URL=https://api.topol.io
 TOPOL_API_KEY=your-api-key
 TOPOL_CACHE_ENABLED=true
 TOPOL_CACHE_TTL=3600
