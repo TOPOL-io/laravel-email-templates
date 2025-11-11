@@ -1,10 +1,17 @@
-# Topol Email Templates for Laravel
+# Laravel Email Templates by Topol.io
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/topol/laravel-email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/laravel-email-templates)
 [![Total Downloads](https://img.shields.io/packagist/dt/topol/laravel-email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/laravel-email-templates)
-![GitHub Actions](https://github.com/topol/laravel-email-templates/actions/workflows/main.yml/badge.svg)
+[![GitHub Actions](https://github.com/topol/laravel-email-templates/actions/workflows/main.yml/badge.svg)](https://github.com/topol/laravel-email-templates/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Laravel package that seamlessly integrates with Topol.io email templates. This package hooks into Laravel's email sending system to fetch email templates from the Topol API by ID, with built-in caching and multiple usage patterns.
+A modern Laravel package that seamlessly integrates with [Topol.io](https://topol.io) email templates. Fetch, cache, and send beautiful email templates with automatic variable replacement and full Laravel Mail integration.
+
+## Requirements
+
+- **PHP 8.4+**
+- **Laravel 12.x**
+- Topol.io API access
 
 ## Features
 
@@ -41,20 +48,135 @@ TOPOL_CACHE_TTL=3600
 
 ## Quick Start
 
-### Using TopolMailable
+### Basic Usage
 
 ```php
 use Illuminate\Support\Facades\Mail;
 use Topol\EmailTemplates\TopolMailable;
 
+// Send an email with template variables
 Mail::to('user@example.com')->send(
-    new TopolMailable('template-123', ['name' => 'John Doe'])
+    new TopolMailable('template-123', [
+        'name' => 'John Doe',
+        'company' => 'Acme Inc'
+    ])
 );
+```
+
+## Usage Examples
+
+### 1. Using TopolMailable (Recommended)
+
+The simplest way to send emails with Topol templates:
+
+```php
+use Illuminate\Support\Facades\Mail;
+use Topol\EmailTemplates\TopolMailable;
+
+// Basic usage
+Mail::to('user@example.com')
+    ->send(new TopolMailable('welcome-email', [
+        'name' => 'John Doe',
+        'activation_link' => 'https://example.com/activate'
+    ]));
+
+// With multiple recipients
+Mail::to('user@example.com')
+    ->cc('manager@example.com')
+    ->bcc('archive@example.com')
+    ->send(new TopolMailable('newsletter', ['month' => 'November']));
+
+// Queue the email for better performance
+Mail::to('user@example.com')
+    ->queue(new TopolMailable('welcome-email', ['name' => 'John']));
+```
+
+### 2. Using the Facade
+
+For more control over template fetching:
+
+```php
+use Topol\EmailTemplates\Facades\EmailTemplates;
+
+// Fetch a template
+$template = EmailTemplates::getTemplate('template-123');
+
+// Clear cached template
+EmailTemplates::clearCache('template-123');
+
+// Clear all cached templates
+EmailTemplates::clearAllCache();
+
+// Create a mailable from template
+$mailable = EmailTemplates::mailable('template-123', ['name' => 'John']);
+Mail::to('user@example.com')->send($mailable);
+```
+
+### 3. Custom Mailable Class
+
+Create your own mailable class for reusable email templates:
+
+```php
+namespace App\Mail;
+
+use Topol\EmailTemplates\TopolMailable;
+
+class WelcomeEmail extends TopolMailable
+{
+    public function __construct(public string $userName, public string $activationLink)
+    {
+        parent::__construct('welcome-email', [
+            'name' => $this->userName,
+            'activation_link' => $this->activationLink,
+        ]);
+    }
+}
+
+// Usage
+Mail::to('user@example.com')->send(
+    new WelcomeEmail('John Doe', 'https://example.com/activate/abc123')
+);
+```
+
+## Configuration
+
+The package configuration file is located at `config/email-templates.php`:
+
+```php
+return [
+    // Topol API URL
+    'api_url' => env('TOPOL_API_URL', 'https://api.topol.io'),
+
+    // Your Topol API key
+    'api_key' => env('TOPOL_API_KEY'),
+
+    // Request timeout in seconds
+    'timeout' => env('TOPOL_TIMEOUT', 30),
+
+    // Cache settings
+    'cache' => [
+        'enabled' => env('TOPOL_CACHE_ENABLED', true),
+        'ttl' => env('TOPOL_CACHE_TTL', 3600), // 1 hour
+        'prefix' => env('TOPOL_CACHE_PREFIX', 'topol_email_template_'),
+    ],
+];
+```
+
+### Environment Variables
+
+Add these to your `.env` file:
+
+```env
+TOPOL_API_URL=https://api.topol.io
+TOPOL_API_KEY=your-api-key-here
+TOPOL_CACHE_ENABLED=true
+TOPOL_CACHE_TTL=3600
+TOPOL_TIMEOUT=30
 ```
 
 ## API Response Format
 
-Your Topol API should return templates in this format:
+Your Topol API endpoint should return templates in this JSON format:
 
 ```json
 {
@@ -68,18 +190,130 @@ Your Topol API should return templates in this format:
 }
 ```
 
-### Changelog
+### Variable Replacement
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+The package supports both `{{variable}}` and `{variable}` syntax for template variables:
+
+```php
+// Template content
+"Hello {{name}}, welcome to {company}!"
+
+// Variables
+['name' => 'John', 'company' => 'Acme Inc']
+
+// Result
+"Hello John, welcome to Acme Inc!"
+```
+
+## Caching
+
+Templates are automatically cached to reduce API calls:
+
+```php
+use Topol\EmailTemplates\Facades\EmailTemplates;
+
+// First call fetches from API and caches
+$template = EmailTemplates::getTemplate('template-123');
+
+// Subsequent calls use cached version
+$template = EmailTemplates::getTemplate('template-123');
+
+// Clear specific template cache
+EmailTemplates::clearCache('template-123');
+
+// Clear all template caches
+EmailTemplates::clearAllCache();
+```
+
+Cache duration is controlled by `TOPOL_CACHE_TTL` (in seconds).
+
+## Testing
+
+The package includes a comprehensive test suite:
+
+```bash
+# Run tests
+composer test
+
+# Run tests with coverage
+composer test-coverage
+
+# Run static analysis (PHPStan at max level)
+composer phpstan
+
+# Check code style
+composer pint-test
+
+# Fix code style
+composer pint
+```
+
+## Error Handling
+
+The package throws specific exceptions for different error scenarios:
+
+```php
+use Topol\EmailTemplates\Exceptions\ApiException;
+use Topol\EmailTemplates\Exceptions\TemplateNotFoundException;
+
+try {
+    $template = EmailTemplates::getTemplate('template-123');
+} catch (TemplateNotFoundException $e) {
+    // Template not found (404)
+    Log::error('Template not found: ' . $e->getMessage());
+} catch (ApiException $e) {
+    // Other API errors (500, network issues, etc.)
+    Log::error('API error: ' . $e->getMessage());
+}
+```
+
+## Advanced Usage
+
+### Queuing Emails
+
+```php
+use Illuminate\Support\Facades\Mail;
+use Topol\EmailTemplates\TopolMailable;
+
+// Queue email for background processing
+Mail::to('user@example.com')
+    ->queue(new TopolMailable('welcome-email', ['name' => 'John']));
+
+// Queue with delay
+Mail::to('user@example.com')
+    ->later(now()->addMinutes(10), new TopolMailable('reminder', ['task' => 'Review']));
+```
+
+### Custom From Address
+
+```php
+// Override template's from address
+Mail::to('user@example.com')
+    ->from('custom@example.com', 'Custom Sender')
+    ->send(new TopolMailable('template-123', ['name' => 'John']));
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Security
+## Security
 
-If you discover any security related issues, please email jakub@topol.io instead of using the issue tracker.
+If you discover any security-related issues, please email jakub@topol.io instead of using the issue tracker.
+
+## Credits
+
+- [Jakub Gause](https://github.com/topol)
+- [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+---
+
+Made with ❤️ by [Topol.io](https://topol.io)
