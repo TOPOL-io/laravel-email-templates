@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/topol/laravel-email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/laravel-email-templates)
 [![Total Downloads](https://img.shields.io/packagist/dt/topol/laravel-email-templates.svg?style=flat-square)](https://packagist.org/packages/topol/laravel-email-templates)
-[![GitHub Actions](https://github.com/topol/laravel-email-templates/actions/workflows/main.yml/badge.svg)](https://github.com/topol/laravel-email-templates/actions)
+[![Tests](https://github.com/topol/laravel-email-templates/actions/workflows/tests.yml/badge.svg)](https://github.com/topol/laravel-email-templates/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A modern Laravel package that seamlessly integrates with [Topol.io](https://topol.io) email templates. Fetch, cache, and send beautiful email templates with automatic variable replacement and full Laravel Mail integration.
