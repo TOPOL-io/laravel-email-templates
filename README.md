@@ -68,10 +68,6 @@ Your Topol API should return templates in this format:
 }
 ```
 
-## Advanced Usage
-
-For more examples including queueing, attachments, multiple recipients, and error handling, see [USAGE_EXAMPLES.md](USAGE_EXAMPLES.md).
-
 ### Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
