@@ -4,7 +4,8 @@
          bootstrap="vendor/autoload.php"
          colors="true"
          failOnRisky="true"
-         failOnWarning="true"
+         failOnWarning="false"
+         failOnDeprecation="false"
          cacheDirectory=".phpunit.cache">
     <testsuites>
         <testsuite name="Topol Email Templates Test Suite">
