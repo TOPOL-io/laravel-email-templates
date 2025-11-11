@@ -19,8 +19,8 @@ class EmailTemplates
     /**
      * Fetch a template from the API
      *
-     * @param string|int $templateId
      * @return array<string, mixed>
+     *
      * @throws TemplateNotFoundException
      * @throws ApiException
      */
@@ -31,9 +31,6 @@ class EmailTemplates
 
     /**
      * Clear cached template
-     *
-     * @param string|int $templateId
-     * @return void
      */
     public function clearCache(string|int $templateId): void
     {
@@ -42,8 +39,6 @@ class EmailTemplates
 
     /**
      * Clear all cached templates
-     *
-     * @return void
      */
     public function clearAllCache(): void
     {
@@ -53,9 +48,7 @@ class EmailTemplates
     /**
      * Create a new TopolMailable instance
      *
-     * @param string $templateId
-     * @param array<string, mixed> $data
-     * @return TopolMailable
+     * @param  array<string, mixed>  $data
      */
     public function mailable(string $templateId, array $data = []): TopolMailable
     {

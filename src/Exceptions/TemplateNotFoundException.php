@@ -6,8 +6,4 @@ namespace Topol\EmailTemplates\Exceptions;
 
 use Exception;
 
-class TemplateNotFoundException extends Exception
-{
-    //
-}
-
+class TemplateNotFoundException extends Exception {}

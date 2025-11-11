@@ -12,13 +12,14 @@ use Topol\EmailTemplates\Exceptions\TemplateNotFoundException;
 
 class TopolMailable extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
      *
-     * @param string $templateId Template ID to fetch from API
-     * @param array<string, mixed> $data Additional data to pass to the template
+     * @param  string  $templateId  Template ID to fetch from API
+     * @param  array<string, mixed>  $data  Additional data to pass to the template
      */
     public function __construct(
         public readonly string $templateId,
@@ -29,6 +30,7 @@ class TopolMailable extends Mailable
      * Build the message.
      *
      * @return $this
+     *
      * @throws TemplateNotFoundException
      * @throws ApiException
      */
@@ -76,9 +78,7 @@ class TopolMailable extends Mailable
     /**
      * Replace variables in content with actual data
      *
-     * @param string $content
-     * @param array<string, mixed> $data
-     * @return string
+     * @param  array<string, mixed>  $data
      */
     protected function replaceVariables(string $content, array $data): string
     {
@@ -91,4 +91,3 @@ class TopolMailable extends Mailable
         return $content;
     }
 }
-

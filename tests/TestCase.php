@@ -31,7 +31,6 @@ abstract class TestCase extends Orchestra
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return void
      */
     protected function getEnvironmentSetUp($app): void
     {
@@ -42,9 +41,8 @@ abstract class TestCase extends Orchestra
         $app['config']->set('email-templates.cache.enabled', true);
         $app['config']->set('email-templates.cache.ttl', 3600);
         $app['config']->set('email-templates.cache.prefix', 'topol_email_template_');
-        
+
         // Use array cache driver for testing
         $app['config']->set('cache.default', 'array');
     }
 }
-

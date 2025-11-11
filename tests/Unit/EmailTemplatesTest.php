@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Mockery;
 use Topol\EmailTemplates\ApiClient;
 use Topol\EmailTemplates\EmailTemplates;
-use Topol\EmailTemplates\TopolMailable;
 use Topol\EmailTemplates\Tests\TestCase;
+use Topol\EmailTemplates\TopolMailable;
 
 class EmailTemplatesTest extends TestCase
 {
@@ -126,7 +126,7 @@ class EmailTemplatesTest extends TestCase
             'https://api.topol.io/templates/*' => Http::response(['id' => 'test'], 200),
         ]);
 
-        $emailTemplates = new EmailTemplates();
+        $emailTemplates = new EmailTemplates;
         $result = $emailTemplates->fetchTemplate('template-123');
 
         $this->assertIsArray($result);
@@ -153,4 +153,3 @@ class EmailTemplatesTest extends TestCase
         $this->assertInstanceOf(ApiClient::class, $instance1);
     }
 }
-

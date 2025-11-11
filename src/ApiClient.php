@@ -37,8 +37,8 @@ class ApiClient
     /**
      * Fetch email template by ID from the API
      *
-     * @param string|int $templateId
      * @return array<string, mixed>
+     *
      * @throws TemplateNotFoundException
      * @throws ApiException
      */
@@ -61,7 +61,7 @@ class ApiClient
                 throw new TemplateNotFoundException("Template with ID {$templateId} not found");
             }
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 throw new ApiException(
                     "API request failed with status {$response->status()}: {$response->body()}"
                 );
@@ -96,7 +96,7 @@ class ApiClient
         ];
 
         if ($this->apiKey) {
-            $headers['Authorization'] = 'Bearer ' . $this->apiKey;
+            $headers['Authorization'] = 'Bearer '.$this->apiKey;
         }
 
         return $headers;
@@ -104,8 +104,6 @@ class ApiClient
 
     /**
      * Check if cache is enabled
-     *
-     * @return bool
      */
     protected function isCacheEnabled(): bool
     {
@@ -115,7 +113,6 @@ class ApiClient
     /**
      * Get template from cache
      *
-     * @param string|int $templateId
      * @return array<string, mixed>|null
      */
     protected function getFromCache(string|int $templateId): ?array
@@ -123,15 +120,14 @@ class ApiClient
         $key = $this->getCacheKey($templateId);
         /** @var array<string, mixed>|null $cached */
         $cached = Cache::get($key);
+
         return $cached;
     }
 
     /**
      * Save template to cache
      *
-     * @param string|int $templateId
-     * @param array<string, mixed> $data
-     * @return void
+     * @param  array<string, mixed>  $data
      */
     protected function saveToCache(string|int $templateId, array $data): void
     {
@@ -143,22 +139,17 @@ class ApiClient
 
     /**
      * Generate cache key for template
-     *
-     * @param string|int $templateId
-     * @return string
      */
     protected function getCacheKey(string|int $templateId): string
     {
         $prefix = $this->cacheConfig['prefix'] ?? 'topol_email_template_';
         $prefixStr = is_string($prefix) ? $prefix : 'topol_email_template_';
-        return $prefixStr . (string) $templateId;
+
+        return $prefixStr.(string) $templateId;
     }
 
     /**
      * Clear cached template
-     *
-     * @param string|int $templateId
-     * @return void
      */
     public function clearCache(string|int $templateId): void
     {
@@ -168,8 +159,6 @@ class ApiClient
 
     /**
      * Clear all cached templates
-     *
-     * @return void
      */
     public function clearAllCache(): void
     {
@@ -177,4 +166,3 @@ class ApiClient
         Cache::flush();
     }
 }
-

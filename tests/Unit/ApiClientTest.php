@@ -18,7 +18,7 @@ class ApiClientTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->apiClient = new ApiClient();
+        $this->apiClient = new ApiClient;
         Cache::flush();
     }
 
@@ -104,7 +104,7 @@ class ApiClientTest extends TestCase
         Http::assertSentCount(1);
 
         // Verify cache was used
-        $cacheKey = 'topol_email_template_' . $templateId;
+        $cacheKey = 'topol_email_template_'.$templateId;
         $this->assertEquals($expectedData, Cache::get($cacheKey));
     }
 
@@ -112,7 +112,7 @@ class ApiClientTest extends TestCase
     public function it_does_not_cache_when_cache_is_disabled(): void
     {
         config(['email-templates.cache.enabled' => false]);
-        $apiClient = new ApiClient();
+        $apiClient = new ApiClient;
 
         $templateId = 'template-123';
         $expectedData = [
@@ -135,7 +135,7 @@ class ApiClientTest extends TestCase
         Http::assertSentCount(2);
 
         // Verify nothing was cached
-        $cacheKey = 'topol_email_template_' . $templateId;
+        $cacheKey = 'topol_email_template_'.$templateId;
         $this->assertNull(Cache::get($cacheKey));
     }
 
@@ -152,7 +152,7 @@ class ApiClientTest extends TestCase
         // Fetch and cache template
         $this->apiClient->fetchTemplate($templateId);
 
-        $cacheKey = 'topol_email_template_' . $templateId;
+        $cacheKey = 'topol_email_template_'.$templateId;
         $this->assertNotNull(Cache::get($cacheKey));
 
         // Clear cache
@@ -176,22 +176,22 @@ class ApiClientTest extends TestCase
         $this->apiClient->fetchTemplate($templateId2);
 
         // Verify both are cached
-        $this->assertNotNull(Cache::get('topol_email_template_' . $templateId1));
-        $this->assertNotNull(Cache::get('topol_email_template_' . $templateId2));
+        $this->assertNotNull(Cache::get('topol_email_template_'.$templateId1));
+        $this->assertNotNull(Cache::get('topol_email_template_'.$templateId2));
 
         // Clear all cache
         $this->apiClient->clearAllCache();
 
         // Verify cache is cleared
-        $this->assertNull(Cache::get('topol_email_template_' . $templateId1));
-        $this->assertNull(Cache::get('topol_email_template_' . $templateId2));
+        $this->assertNull(Cache::get('topol_email_template_'.$templateId1));
+        $this->assertNull(Cache::get('topol_email_template_'.$templateId2));
     }
 
     /** @test */
     public function it_uses_custom_cache_prefix(): void
     {
         config(['email-templates.cache.prefix' => 'custom_prefix_']);
-        $apiClient = new ApiClient();
+        $apiClient = new ApiClient;
 
         $templateId = 'template-123';
         $expectedData = ['id' => $templateId];
@@ -202,8 +202,8 @@ class ApiClientTest extends TestCase
 
         $apiClient->fetchTemplate($templateId);
 
-        $this->assertNotNull(Cache::get('custom_prefix_' . $templateId));
-        $this->assertNull(Cache::get('topol_email_template_' . $templateId));
+        $this->assertNotNull(Cache::get('custom_prefix_'.$templateId));
+        $this->assertNull(Cache::get('topol_email_template_'.$templateId));
     }
 
     /** @test */
@@ -211,7 +211,7 @@ class ApiClientTest extends TestCase
     {
         $customTtl = 7200;
         config(['email-templates.cache.ttl' => $customTtl]);
-        $apiClient = new ApiClient();
+        $apiClient = new ApiClient;
 
         $templateId = 'template-123';
         $expectedData = ['id' => $templateId];
@@ -222,12 +222,12 @@ class ApiClientTest extends TestCase
 
         Cache::shouldReceive('get')
             ->once()
-            ->with('topol_email_template_' . $templateId)
+            ->with('topol_email_template_'.$templateId)
             ->andReturn(null);
 
         Cache::shouldReceive('put')
             ->once()
-            ->with('topol_email_template_' . $templateId, $expectedData, $customTtl);
+            ->with('topol_email_template_'.$templateId, $expectedData, $customTtl);
 
         $apiClient->fetchTemplate($templateId);
     }
@@ -263,7 +263,7 @@ class ApiClientTest extends TestCase
     public function it_works_without_api_key(): void
     {
         config(['email-templates.api_key' => null]);
-        $apiClient = new ApiClient();
+        $apiClient = new ApiClient;
 
         Http::fake([
             'https://api.topol.io/templates/*' => Http::response(['id' => 'test'], 200),
@@ -272,8 +272,7 @@ class ApiClientTest extends TestCase
         $apiClient->fetchTemplate('template-123');
 
         Http::assertSent(function ($request) {
-            return !$request->hasHeader('Authorization');
+            return ! $request->hasHeader('Authorization');
         });
     }
 }
-

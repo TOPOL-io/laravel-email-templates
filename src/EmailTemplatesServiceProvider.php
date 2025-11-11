@@ -30,7 +30,7 @@ class EmailTemplatesServiceProvider extends ServiceProvider
 
         // Register the API client
         $this->app->singleton(ApiClient::class, function ($app) {
-            return new ApiClient();
+            return new ApiClient;
         });
 
         // Register the main class to use with the facade
@@ -38,8 +38,8 @@ class EmailTemplatesServiceProvider extends ServiceProvider
             /** @var \Illuminate\Contracts\Foundation\Application $app */
             /** @var ApiClient $apiClient */
             $apiClient = $app->make(ApiClient::class);
+
             return new EmailTemplates($apiClient);
         });
     }
-
 }

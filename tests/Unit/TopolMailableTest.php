@@ -6,8 +6,8 @@ namespace Topol\EmailTemplates\Tests\Unit;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Topol\EmailTemplates\TopolMailable;
 use Topol\EmailTemplates\Tests\TestCase;
+use Topol\EmailTemplates\TopolMailable;
 
 class TopolMailableTest extends TestCase
 {
@@ -350,4 +350,3 @@ class TopolMailableTest extends TestCase
         $this->assertStringContainsString('Alice', $rendered);
     }
 }
-
