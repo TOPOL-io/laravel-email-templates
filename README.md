@@ -20,8 +20,6 @@ A modern Laravel package that seamlessly integrates with [Topol.io](https://topo
 - 💾 **Built-in Caching** - Reduces API calls with configurable cache
 - 🔄 **Variable Replacement** - Supports `{{variable}}` and `{variable}` syntax
 - ⚡ **Queue Support** - Send emails immediately or queue them
-- 🛠️ **Artisan Commands** - Test API connection easily
-- 🎯 **Type-safe** - Full IDE autocomplete support
 
 ## Installation
 
@@ -39,6 +37,26 @@ composer require topol/laravel-email-templates:dev-main
 
 ### Setup
 
+#### 1. Create a Topol.io Account and Templates
+
+First, you need to set up your Topol.io account and create email templates:
+
+1. **Create Account**: Go to [app.topol.io](https://app.topol.io) and sign up for a free account
+2. **Create Templates**:
+   - Click "Create Template" in your dashboard
+   - Choose from pre-made templates or start from scratch
+   - Save your template
+3. **Get Template ID**: After creating a template, the ID is visible in the URL:
+   - Example: `https://app.topol.io/templates/390721/edit`
+   - Your template ID is: `390721`
+
+#### 2. Generate API Key
+
+1. Go to [app.topol.io/settings/api-tokens](https://app.topol.io/settings/api-tokens)
+2. Copy your API key (you'll need this for the next step)
+
+#### 3. Configure Laravel Package
+
 Publish the configuration file:
 
 ```bash
@@ -48,10 +66,12 @@ php artisan vendor:publish --provider="Topol\EmailTemplates\EmailTemplatesServic
 Add these environment variables to your `.env` file:
 
 ```env
-TOPOL_API_KEY=your-api-key
+TOPOL_API_KEY=your-api-key-from-step-2
 TOPOL_CACHE_ENABLED=true
 TOPOL_CACHE_TTL=3600
 ```
+
+Replace `your-api-key-from-step-2` with the API key you generated in step 2.
 
 ## Quick Start
 
@@ -62,13 +82,16 @@ use Illuminate\Support\Facades\Mail;
 use Topol\EmailTemplates\TopolMailable;
 
 // Send an email with template variables
+// Use the template ID from your Topol.io dashboard (e.g., 390721)
 Mail::to('user@example.com')->send(
-    new TopolMailable('template-123', [
+    new TopolMailable('390721', [
         'name' => 'John Doe',
         'company' => 'Acme Inc'
     ])
 );
 ```
+
+> **Note:** Replace `390721` with your actual template ID from [app.topol.io/templates](https://app.topol.io/templates)
 
 ## Usage Examples
 
@@ -80,9 +103,9 @@ The simplest way to send emails with Topol templates:
 use Illuminate\Support\Facades\Mail;
 use Topol\EmailTemplates\TopolMailable;
 
-// Basic usage
+// Basic usage - use your template ID from Topol.io dashboard
 Mail::to('user@example.com')
-    ->send(new TopolMailable('welcome-email', [
+    ->send(new TopolMailable('390721', [
         'name' => 'John Doe',
         'activation_link' => 'https://example.com/activate'
     ]));
@@ -91,12 +114,14 @@ Mail::to('user@example.com')
 Mail::to('user@example.com')
     ->cc('manager@example.com')
     ->bcc('archive@example.com')
-    ->send(new TopolMailable('newsletter', ['month' => 'November']));
+    ->send(new TopolMailable('390722', ['month' => 'November']));
 
 // Queue the email for better performance
 Mail::to('user@example.com')
-    ->queue(new TopolMailable('welcome-email', ['name' => 'John']));
+    ->queue(new TopolMailable('390721', ['name' => 'John']));
 ```
+
+> **Tip:** Find your template ID in the URL when editing a template: `https://app.topol.io/templates/390721/edit`
 
 ### 2. Using the Facade
 
@@ -105,17 +130,17 @@ For more control over template fetching:
 ```php
 use Topol\EmailTemplates\Facades\EmailTemplates;
 
-// Fetch a template
-$template = EmailTemplates::getTemplate('template-123');
+// Fetch a template by ID
+$template = EmailTemplates::getTemplate('390721');
 
 // Clear cached template
-EmailTemplates::clearCache('template-123');
+EmailTemplates::clearCache('390721');
 
 // Clear all cached templates
 EmailTemplates::clearAllCache();
 
 // Create a mailable from template
-$mailable = EmailTemplates::mailable('template-123', ['name' => 'John']);
+$mailable = EmailTemplates::mailable('390721', ['name' => 'John']);
 Mail::to('user@example.com')->send($mailable);
 ```
 
@@ -132,7 +157,8 @@ class WelcomeEmail extends TopolMailable
 {
     public function __construct(public string $userName, public string $activationLink)
     {
-        parent::__construct('welcome-email', [
+        // Use your template ID from Topol.io
+        parent::__construct('390721', [
             'name' => $this->userName,
             'activation_link' => $this->activationLink,
         ]);
@@ -151,9 +177,6 @@ The package configuration file is located at `config/email-templates.php`:
 
 ```php
 return [
-    // Topol API URL
-    'api_url' => env('TOPOL_API_URL', 'https://app.topol.io/api'),
-
     // Your Topol API key
     'api_key' => env('TOPOL_API_KEY'),
 
