@@ -45,7 +45,6 @@ First, you need to set up your Topol.io account and create email templates:
 2. **Create Templates**:
    - Click "Create Template" in your dashboard
    - Choose from pre-made templates or start from scratch
-   - Save your template
 3. **Get Template ID**: After creating a template, the ID is visible in the URL:
    - Example: `https://app.topol.io/templates/390721/edit`
    - Your template ID is: `390721`
