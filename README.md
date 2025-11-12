@@ -196,7 +196,6 @@ return [
 Add these to your `.env` file:
 
 ```env
-TOPOL_API_URL=https://app.topol.io/api
 TOPOL_API_KEY=your-api-key-here
 TOPOL_CACHE_ENABLED=true
 TOPOL_CACHE_TTL=3600
